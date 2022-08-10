@@ -4,12 +4,15 @@ locals {
   log_configuration = {
     logDriver = "awslogs"
     options = {
+      awslogs-region        = data.aws_region.current.name
       awslogs-group         = var.task_name
       awslogs-create-group  = "true"
       awslogs-stream-prefix = var.task_name
     }
   }
 }
+
+data "aws_region" "current" {}
 
 resource "aws_ecs_task_definition" "task" {
   family                   = var.task_name
